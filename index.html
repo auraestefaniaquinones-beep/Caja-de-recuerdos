@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colecciones</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>Colecciones</h1>
+    <div class="search">
+      <input type="text" id="buscador" placeholder="Buscar...">
+    </div>
+    <div class="user">👤 Usuario</div>
+  </header>
+
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h3>Categorías</h3>
+      <ul id="listaCategorias">
+        <li onclick="filtrar('Todas')">Todas</li>
+        <li onclick="filtrar('Libros')">Libros</li>
+        <li onclick="filtrar('Electrónica')">Electrónica</li>
+        <li onclick="filtrar('Ropa')">Ropa</li>
+      </ul>
+      <button onclick="abrirModalCategoria()">+ Nueva Categoría</button>
+
+      <div class="resumen">
+        <h4>Resumen</h4>
+        <p id="resumen">Total objetos: 0</p>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="main-header">
+        <h2>Mis Objetos</h2>
+        <button onclick="abrirModalObjeto()">+ Agregar Objeto</button>
+      </div>
+
+      <div class="grid" id="gridObjetos"></div>
+    </main>
+
+  </div>
+
+  <!-- MODAL OBJETO -->
+  <div class="modal" id="modalObjeto">
+    <div class="modal-content">
+      <h3 id="tituloModal">Agregar Objeto</h3>
+      <input type="text" id="nombre" placeholder="Nombre">
+      <input type="text" id="categoria" placeholder="Categoría">
+      <input type="text" id="info1" placeholder="Descripción 1">
+      <input type="text" id="info2" placeholder="Descripción 2">
+      <input type="text" id="imagen" placeholder="URL de imagen">
+      <div class="modal-buttons">
+        <button onclick="guardarObjeto()">Guardar</button>
+        <button onclick="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALLE -->
+  <div class="modal" id="modalDetalle">
+    <div class="modal-content">
+      <h3 id="detalleNombre"></h3>
+      <img id="detalleImg" src="" alt="" style="width:100%; border-radius:5px;"/>
+      <p id="detalleInfo1"></p>
+      <p id="detalleInfo2"></p>
+      <button onclick="cerrarDetalle()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL CATEGORIA -->
+  <div class="modal" id="modalCategoria">
+    <div class="modal-content">
+      <h3>Nueva Categoría</h3>
+      <input type="text" id="nuevaCategoria" placeholder="Nombre categoría">
+      <div class="modal-buttons">
+        <button onclick="guardarCategoria()">Guardar</button>
+        <button onclick="cerrarModalCategoria()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS separados -->
+  <script src="js/categorias.js"></script>
+  <script src="js/objetos.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Inicializar buscador
+    document.getElementById('buscador').addEventListener('input', () => {
+      const texto = document.getElementById('buscador').value.toLowerCase();
+      const grid = document.getElementById('gridObjetos');
+      grid.innerHTML = '';
+      objetos
+        .filter(obj => obj.nombre.toLowerCase().includes(texto))
+        .forEach((obj, index) => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
+            <img src="${obj.imagen || 'https://via.placeholder.com/150'}" alt="${obj.nombre}">
+            <h4>${obj.nombre}</h4>
+            <p>${obj.categoria}</p>
+            <div class="acciones">
+              <button onclick="verDetalle(${index})">Ver</button>
+              <button onclick="editarObjeto(${index})">Editar</button>
+              <button onclick="eliminarObjeto(${index})">Eliminar</button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      actualizarResumen();
+    });
+  </script>
+
+</body>
+</html>
