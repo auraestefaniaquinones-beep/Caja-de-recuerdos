@@ -6,7 +6,7 @@ const STORAGE_KEYS = {
 };
 
 // ==============================
-// UTILIDADES INTERNAS (privadas)
+//funcion de almacenamiento
 // ==============================
 
 // Leer del localStorage de forma segura
@@ -20,7 +20,7 @@ function leerStorage(key, defaultValue) {
   }
 }
 
-// Escribir en localStorage de forma segura
+// localsttorage 
 function escribirStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -46,7 +46,7 @@ function guardarStorage() {
 }
 
 // ==============================
-// HELPERS (DRY)
+// sincroniacion automatica
 // ==============================
 
 // Guardar automáticamente después de cambios
