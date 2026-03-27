@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Colecciones</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <!-- Metadatos y configuración de la página -->
+  <meta charset="UTF-8"> <!-- Codificación de caracteres -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsivo -->
+  <title>Colecciones</title> <!-- Título de la página -->
+  <link rel="stylesheet" href="css/styles.css"> <!-- Archivo de estilos CSS -->
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER: Barra superior con título, buscador y usuario -->
   <header class="header">
-    <h1>Colecciones</h1>
+    <h1>Colecciones</h1> <!-- Título principal -->
     <div class="search">
-      <input type="text" id="buscador" placeholder="Buscar...">
+      <input type="text" id="buscador" placeholder="Buscar..."> <!-- Campo para buscar objetos -->
     </div>
-    <div class="user">👤 Usuario</div>
+    <div class="user">👤 Usuario</div> <!-- Información del usuario -->
   </header>
 
   <div class="container">
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR: Menú lateral con categorías y resumen -->
     <aside class="sidebar">
       <h3>Categorías</h3>
       <ul id="listaCategorias">
+        <!-- Lista de categorías con eventos onclick para filtrar -->
         <li onclick="filtrar('Todas')">Todas</li>
         <li onclick="filtrar('Libros')">Libros</li>
         <li onclick="filtrar('Electrónica')">Electrónica</li>
         <li onclick="filtrar('Ropa')">Ropa</li>
       </ul>
-      <button onclick="abrirModalCategoria()">+ Nueva Categoría</button>
+      <button onclick="abrirModalCategoria()">+ Nueva Categoría</button> <!-- Botón para agregar categoría -->
 
+      <!-- Resumen de objetos -->
       <div class="resumen">
         <h4>Resumen</h4>
-        <p id="resumen">Total objetos: 0</p>
+        <p id="resumen">Total objetos: 0</p> <!-- Cantidad de objetos mostrados -->
       </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- MAIN: Sección principal donde se muestran los objetos -->
     <main class="main">
       <div class="main-header">
         <h2>Mis Objetos</h2>
-        <button onclick="abrirModalObjeto()">+ Agregar Objeto</button>
+        <button onclick="abrirModalObjeto()">+ Agregar Objeto</button> <!-- Botón para agregar objetos -->
       </div>
 
-      <div class="grid" id="gridObjetos"></div>
+      <div class="grid" id="gridObjetos"></div> <!-- Contenedor dinámico de tarjetas de objetos -->
     </main>
 
   </div>
 
-  <!-- MODAL OBJETO -->
+  <!-- MODAL OBJETO: Formulario para agregar o editar objetos -->
   <div class="modal" id="modalObjeto">
     <div class="modal-content">
       <h3 id="tituloModal">Agregar Objeto</h3>
@@ -58,65 +61,65 @@
       <input type="text" id="info2" placeholder="Descripción 2">
       <input type="text" id="imagen" placeholder="URL de imagen">
       <div class="modal-buttons">
-        <button onclick="guardarObjeto()">Guardar</button>
-        <button onclick="cerrarModal()">Cancelar</button>
+        <button onclick="guardarObjeto()">Guardar</button> <!-- Guardar objeto -->
+        <button onclick="cerrarModal()">Cancelar</button> <!-- Cerrar modal -->
       </div>
     </div>
   </div>
 
-  <!-- MODAL DETALLE -->
+  <!-- MODAL DETALLE: Muestra información de un objeto seleccionado -->
   <div class="modal" id="modalDetalle">
     <div class="modal-content">
-      <h3 id="detalleNombre"></h3>
-      <img id="detalleImg" src="" alt="" style="width:100%; border-radius:5px;"/>
-      <p id="detalleInfo1"></p>
-      <p id="detalleInfo2"></p>
-      <button onclick="cerrarDetalle()">Cerrar</button>
+      <h3 id="detalleNombre"></h3> <!-- Nombre del objeto -->
+      <img id="detalleImg" src="" alt="" style="width:100%; border-radius:5px;"/> <!-- Imagen del objeto -->
+      <p id="detalleInfo1"></p> <!-- Información adicional 1 -->
+      <p id="detalleInfo2"></p> <!-- Información adicional 2 -->
+      <button onclick="cerrarDetalle()">Cerrar</button> <!-- Cerrar modal de detalle -->
     </div>
   </div>
 
-  <!-- MODAL CATEGORIA -->
+  <!-- MODAL CATEGORIA: Formulario para agregar nuevas categorías -->
   <div class="modal" id="modalCategoria">
     <div class="modal-content">
       <h3>Nueva Categoría</h3>
       <input type="text" id="nuevaCategoria" placeholder="Nombre categoría">
       <div class="modal-buttons">
-        <button onclick="guardarCategoria()">Guardar</button>
-        <button onclick="cerrarModalCategoria()">Cancelar</button>
+        <button onclick="guardarCategoria()">Guardar</button> <!-- Guardar nueva categoría -->
+        <button onclick="cerrarModalCategoria()">Cancelar</button> <!-- Cancelar acción -->
       </div>
     </div>
   </div>
 
-  <!-- JS separados -->
-  <script src="js/categorias.js"></script>
-  <script src="js/objetos.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/app.js"></script>
+  <!-- JS separados: Controladores de la lógica de la app -->
+  <script src="js/categorias.js"></script> <!-- Maneja categorías -->
+  <script src="js/objetos.js"></script> <!-- Maneja objetos -->
+  <script src="js/storage.js"></script> <!-- Manejo de almacenamiento (localStorage) -->
+  <script src="js/app.js"></script> <!-- Funciones generales de la app -->
 
+  <!-- Buscador dinámico -->
   <script>
-    // Inicializar buscador
     document.getElementById('buscador').addEventListener('input', () => {
       const texto = document.getElementById('buscador').value.toLowerCase();
       const grid = document.getElementById('gridObjetos');
-      grid.innerHTML = '';
+      grid.innerHTML = ''; // Limpiar grid antes de mostrar resultados
       objetos
-        .filter(obj => obj.nombre.toLowerCase().includes(texto))
+        .filter(obj => obj.nombre.toLowerCase().includes(texto)) // Filtrar objetos por nombre
         .forEach((obj, index) => {
           const card = document.createElement('div');
-          card.classList.add('card');
+          card.classList.add('card'); // Clase CSS de la tarjeta
           card.innerHTML = `
             <img src="${obj.imagen || 'https://via.placeholder.com/150'}" alt="${obj.nombre}">
             <h4>${obj.nombre}</h4>
             <p>${obj.categoria}</p>
             <div class="acciones">
-              <button onclick="verDetalle(${index})">Ver</button>
-              <button onclick="editarObjeto(${index})">Editar</button>
-              <button onclick="eliminarObjeto(${index})">Eliminar</button>
+              <button onclick="verDetalle(${index})">Ver</button> <!-- Ver detalle del objeto -->
+              <button onclick="editarObjeto(${index})">Editar</button> <!-- Editar objeto -->
+              <button onclick="eliminarObjeto(${index})">Eliminar</button> <!-- Eliminar objeto -->
             </div>
           `;
-          grid.appendChild(card);
+          grid.appendChild(card); // Añadir tarjeta al grid
         });
-      actualizarResumen();
+      actualizarResumen(); // Actualizar resumen con la cantidad de objetos visibles
     });
   </script>
 
